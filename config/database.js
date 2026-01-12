@@ -19,8 +19,10 @@ const pool = new Pool({
   port: parseInt(process.env.DB_PORT) || 5432,
   max: 20, // Maximum number of clients in the pool
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-  ssl: process.env.DB_HOST?.includes('https://') ? {
+  connectionTimeoutMillis: 10000, // Increased timeout for remote connections
+  // SSL configuration - only enable if explicitly required
+  // Some hosted databases don't support SSL connections
+  ssl: process.env.DB_SSL === 'true' ? {
     rejectUnauthorized: false // Set to true in production with proper certificates
   } : false
 });

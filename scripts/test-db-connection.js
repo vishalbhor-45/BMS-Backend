@@ -17,7 +17,9 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_NAME || 'bms_database',
   port: parseInt(process.env.DB_PORT) || 5432,
-  ssl: process.env.DB_HOST?.includes('https://') ? {
+  connectionTimeoutMillis: 10000, // Increased timeout for remote connections
+  // SSL configuration - only enable if explicitly required
+  ssl: process.env.DB_SSL === 'true' ? {
     rejectUnauthorized: false
   } : false
 });
